@@ -1,14 +1,15 @@
-import type { NextPage, NextPageContext } from "next";
+import type { NextPageContext } from "next";
 import { getBlog } from "../lib/file";
+import HTMLReactParser from "html-react-parser";
 
-const Home: NextPage = ({ blog }) => {
-  return <p>{blog}</p>;
-};
+function Home({ markdownContent }) {
+  return HTMLReactParser(markdownContent);
+}
 
 export async function getStaticProps(context: NextPageContext) {
-  const { blog } = await getBlog();
+  const { blogMarkdownContent } = await getBlog();
   return {
-    props: { blog: blog },
+    props: { markdownContent: blogMarkdownContent },
   };
 }
 
