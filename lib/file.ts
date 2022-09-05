@@ -3,11 +3,11 @@ import { join } from "path";
 import { remark } from "remark";
 import remarkHtml from "remark-html";
 
-export async function getBlog() {
-  const blogsDirectory = join(process.cwd(), "blogs");
-  const filePath = join(blogsDirectory, "/2022/09-03-index.md");
+export async function getBlog(filePath: string) {
+  const blogsDirectoryPath = join(process.cwd(), "blogs");
+  const absoluteFilePath = join(blogsDirectoryPath, filePath);
 
-  const fileContent = readFileSync(filePath).toString();
+  const fileContent = readFileSync(absoluteFilePath).toString();
   const markdownContent = (
     await remark().use(remarkHtml).process(fileContent)
   ).toString();
