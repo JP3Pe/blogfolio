@@ -1,16 +1,8 @@
-import type { NextPageContext } from "next";
-import { getBlog } from "../lib/file";
 import HTMLReactParser from "html-react-parser";
+import Blog from "./blogs/[title]";
 
-function Home({ markdownContent }) {
-  return HTMLReactParser(markdownContent);
-}
-
-export async function getStaticProps(context: NextPageContext) {
-  const { blogMarkdownContent } = await getBlog();
-  return {
-    props: { markdownContent: blogMarkdownContent },
-  };
+function Home() {
+  return;
 }
 
 export default Home;
