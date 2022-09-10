@@ -1,0 +1,32 @@
+import { readdirSync, readFileSync } from "fs";
+import { join } from "path";
+
+import { remark } from "remark";
+import remarkHtml from "remark-html";
+
+export class Blogs {
+  public static readonly CONTENT_DIRECTORY_NAME: string = "blogs";
+  public static readonly BLOGS_DIRECTORY_PATH: string = join(
+    process.cwd(),
+    Blogs.CONTENT_DIRECTORY_NAME
+  );
+
+  public static getContentDirectoryName(): string {
+    return Blogs.CONTENT_DIRECTORY_NAME;
+  }
+
+  public static async getMarkdown(fileContent: string) {
+    return (await remark().use(remarkHtml).process(fileContent)).toString();
+  }
+
+  public static async getBlog(title: string) {
+    const absoluteFilePath = join(this.BLOGS_DIRECTORY_PATH, title);
+    const fileContent = readFileSync(absoluteFilePath).toString();
+
+    return { markdownContent: await this.getMarkdown(fileContent) };
+  }
+
+  public static async getBlogs() {
+    return readdirSync(join(process.cwd(), this.CONTENT_DIRECTORY_NAME));
+  }
+}
