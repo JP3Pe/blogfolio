@@ -8,8 +8,7 @@ function Blog({ markdownContent }: Params) {
 }
 
 export async function getStaticProps({ params }: Params) {
-  const blogs = new Blogs();
-  const { markdownContent: markdownContent } = await blogs.getBlog(
+  const { markdownContent: markdownContent } = await Blogs.getBlog(
     params.title
   );
   return {
@@ -18,10 +17,9 @@ export async function getStaticProps({ params }: Params) {
 }
 
 export async function getStaticPaths() {
-  const blogs = new Blogs();
   const staticPaths: string[] = [];
-  (await blogs.getBlogs()).map((blogTitle) =>
-    staticPaths.push(`/${blogs.getContentDirectoryName()}/${blogTitle}`)
+  (await Blogs.getBlogs()).map((blogTitle) =>
+    staticPaths.push(`/${Blogs.getContentDirectoryName()}/${blogTitle}`)
   );
   return {
     paths: staticPaths,

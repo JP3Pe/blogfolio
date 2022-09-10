@@ -23,11 +23,10 @@ function Home({ blogTitles, contentDirectoryName }: Params) {
 }
 
 export async function getStaticProps() {
-  const blogs = new Blogs();
   return {
     props: {
-      blogTitles: await blogs.getBlogs(),
-      contentDirectoryName: blogs.getContentDirectoryName(),
+      blogTitles: await Blogs.getBlogs(),
+      contentDirectoryName: Blogs.getContentDirectoryName(),
     },
   };
 }
