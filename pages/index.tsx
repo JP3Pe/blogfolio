@@ -1,16 +1,18 @@
-import { readdirSync } from "fs";
-import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import Link from "next/link";
-import { join } from "path";
+import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 
-function Home({ blogTitles }: Params) {
+import { Blogs } from "../lib/blogs";
+
+function Home({ blogTitles, contentDirectoryName }: Params) {
   return (
     <div className="blog__list">
       <h1>Blog post list</h1>
       <ul>
         {blogTitles.map((blogTitle: string) => (
           <li key={blogTitle}>
-            <Link href={`/blogs/${encodeURIComponent(blogTitle)}`}>
+            <Link
+              href={`/${contentDirectoryName}/${encodeURIComponent(blogTitle)}`}
+            >
               <a>{blogTitle}</a>
             </Link>
           </li>
@@ -20,12 +22,13 @@ function Home({ blogTitles }: Params) {
   );
 }
 
-export const getStaticProps = async () => {
-  const blogsFromDirectory = readdirSync(join(process.cwd(), "blogs"));
-
+export async function getStaticProps() {
   return {
-    props: { blogTitles: blogsFromDirectory },
+    props: {
+      blogTitles: await Blogs.getBlogs(),
+      contentDirectoryName: Blogs.getContentDirectoryName(),
+    },
   };
-};
+}
 
 export default Home;
