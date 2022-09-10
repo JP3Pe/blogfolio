@@ -13,7 +13,7 @@ export class Blogs {
     )
   ) {}
 
-  private getContentDirectoryName(): string {
+  public getContentDirectoryName(): string {
     return this.CONTENT_DIRECTORY_NAME;
   }
 
