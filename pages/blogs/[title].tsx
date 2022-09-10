@@ -1,31 +1,32 @@
-import type { GetStaticPaths } from "next";
 import HTMLReactParser from "html-react-parser";
-import { join } from "path";
-import { readdirSync } from "fs";
-import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 
-import { getBlog } from "../../lib/file";
+import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
+import { Blogs } from "../../lib/blogs";
 
 function Blog({ markdownContent }: Params) {
   return HTMLReactParser(markdownContent);
 }
 
 export async function getStaticProps({ params }: Params) {
-  const { blogMarkdownContent } = await getBlog(params.title);
+  const blogs = new Blogs();
+  const { markdownContent: markdownContent } = await blogs.getBlog(
+    params.title
+  );
   return {
-    props: { markdownContent: blogMarkdownContent },
+    props: { markdownContent: markdownContent },
   };
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const blogsFromDirectory = readdirSync(join(process.cwd(), "blogs"));
-
-  const paths: string[] = [];
-  blogsFromDirectory.map((blogTitle) => paths.push(`/blogs/${blogTitle}`));
+export async function getStaticPaths() {
+  const blogs = new Blogs();
+  const staticPaths: string[] = [];
+  (await blogs.getBlogs()).map((blogTitle) =>
+    staticPaths.push(`/${blogs.getContentDirectoryName()}/${blogTitle}`)
+  );
   return {
-    paths: paths,
+    paths: staticPaths,
     fallback: false,
   };
-};
+}
 
 export default Blog;

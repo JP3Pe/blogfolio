@@ -1,7 +1,7 @@
-import { readdirSync } from "fs";
-import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import Link from "next/link";
-import { join } from "path";
+import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
+
+import { Blogs } from "../lib/blogs";
 
 function Home({ blogTitles }: Params) {
   return (
@@ -20,12 +20,11 @@ function Home({ blogTitles }: Params) {
   );
 }
 
-export const getStaticProps = async () => {
-  const blogsFromDirectory = readdirSync(join(process.cwd(), "blogs"));
-
+export async function getStaticProps() {
+  const blogs = new Blogs();
   return {
-    props: { blogTitles: blogsFromDirectory },
+    props: { blogTitles: await blogs.getBlogs() },
   };
-};
+}
 
 export default Home;
