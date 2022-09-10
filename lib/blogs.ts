@@ -6,7 +6,8 @@ import remarkHtml from "remark-html";
 
 export class Blogs {
   public static readonly CONTENT_DIRECTORY_NAME: string = "blogs";
-  public static readonly BLOGS_DIRECTORY_PATH: string = join(
+  public static readonly CONTENT_FORMAT: string = ".md";
+  public static readonly CONTENT_DIRECTORY_PATH: string = join(
     process.cwd(),
     Blogs.CONTENT_DIRECTORY_NAME
   );
@@ -20,7 +21,11 @@ export class Blogs {
   }
 
   public static async getBlog(title: string) {
-    const absoluteFilePath = join(this.BLOGS_DIRECTORY_PATH, title);
+    const absoluteFilePath = join(
+      this.CONTENT_DIRECTORY_PATH,
+      title,
+      title + this.CONTENT_FORMAT
+    );
     const fileContent = readFileSync(absoluteFilePath).toString();
 
     return { markdownContent: await this.getMarkdown(fileContent) };
