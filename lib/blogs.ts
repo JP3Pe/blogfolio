@@ -6,9 +6,11 @@ import remarkHtml from "remark-html";
 
 export class Blogs {
   public static readonly CONTENT_DIRECTORY_NAME: string = "blogs";
+  public static readonly PUBLIC_DIRECTORY_NAME: string = "public";
   public static readonly CONTENT_FORMAT: string = ".md";
   public static readonly CONTENT_DIRECTORY_PATH: string = join(
     process.cwd(),
+    this.PUBLIC_DIRECTORY_NAME,
     Blogs.CONTENT_DIRECTORY_NAME
   );
 
@@ -32,6 +34,12 @@ export class Blogs {
   }
 
   public static async getBlogs() {
-    return readdirSync(join(process.cwd(), this.CONTENT_DIRECTORY_NAME));
+    return readdirSync(
+      join(
+        process.cwd(),
+        this.PUBLIC_DIRECTORY_NAME,
+        this.CONTENT_DIRECTORY_NAME
+      )
+    );
   }
 }
