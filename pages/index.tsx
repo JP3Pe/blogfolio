@@ -1,9 +1,13 @@
 import Link from "next/link";
-import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 
 import { Blogs } from "../lib/blogs";
 
-function Home({ blogTitles, contentDirectoryName }: Params) {
+type Props = {
+  blogTitles: Array<string>;
+  contentDirectoryName: string;
+};
+
+function Home({ blogTitles, contentDirectoryName }: Props) {
   return (
     <div className="blog__list">
       <h1>Blog post list</h1>
