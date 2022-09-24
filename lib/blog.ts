@@ -4,32 +4,23 @@ import { join } from "path";
 import { remark } from "remark";
 import remarkHtml from "remark-html";
 
-export interface BlogObject {
-  title: string;
-  content: string;
-}
-
-export class BlogObject implements BlogObject {
-  title: string;
-  content: string;
-
-  constructor(title: string, content: string) {
-    this.title = title;
-    this.content = content;
-  }
-}
-export class Blogs {
+export class Blog {
   public static readonly CONTENT_DIRECTORY_NAME: string = "blogs";
   public static readonly PUBLIC_DIRECTORY_NAME: string = "public";
   public static readonly CONTENT_FORMAT: string = ".md";
   public static readonly CONTENT_DIRECTORY_PATH: string = join(
     process.cwd(),
     this.PUBLIC_DIRECTORY_NAME,
-    Blogs.CONTENT_DIRECTORY_NAME
+    Blog.CONTENT_DIRECTORY_NAME
   );
 
+  constructor(public readonly title: string, public readonly content: string) {
+    this.title = title;
+    this.content = content;
+  }
+
   public static getContentDirectoryName(): string {
-    return Blogs.CONTENT_DIRECTORY_NAME;
+    return Blog.CONTENT_DIRECTORY_NAME;
   }
 
   public static async getMarkdown(fileContent: string) {
@@ -63,11 +54,11 @@ export class Blogs {
   public static async getBlogsObject() {
     const blogTitles = await this.getBlogTitles();
 
-    const blogsObjects = new Array<BlogObject>();
+    const blogsObjects = new Array<Blog>();
     for (const blogTitle of blogTitles) {
       const blogContent = await this.getBlog(blogTitle);
-      const blogObject = new BlogObject(blogTitle, blogContent);
-      blogsObjects.push(blogObject);
+      const blog = new Blog(blogTitle, blogContent);
+      blogsObjects.push(blog);
     }
 
     return blogsObjects;

@@ -1,15 +1,15 @@
 import HTMLReactParser from "html-react-parser";
 
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
-import { Blogs } from "../../lib/blogs";
+import { Blog } from "../../lib/blog";
 
-function Blog({ markdownContent }: Params) {
+function BlogHtmlContent({ markdownContent }: Params) {
   return HTMLReactParser(markdownContent);
 }
 
 export async function getStaticProps({ params }: Params) {
-  const { markdownContent: markdownContent } = await Blogs.getMarkdown(
-    await Blogs.getBlog(params.title)
+  const { markdownContent: markdownContent } = await Blog.getMarkdown(
+    await Blog.getBlog(params.title)
   );
   return {
     props: { markdownContent: markdownContent },
@@ -18,8 +18,8 @@ export async function getStaticProps({ params }: Params) {
 
 export async function getStaticPaths() {
   const staticPaths: string[] = [];
-  (await Blogs.getBlogTitles()).map((blogTitle) =>
-    staticPaths.push(`/${Blogs.getContentDirectoryName()}/${blogTitle}`)
+  (await Blog.getBlogTitles()).map((blogTitle) =>
+    staticPaths.push(`/${Blog.getContentDirectoryName()}/${blogTitle}`)
   );
   return {
     paths: staticPaths,
@@ -27,4 +27,4 @@ export async function getStaticPaths() {
   };
 }
 
-export default Blog;
+export default BlogHtmlContent;

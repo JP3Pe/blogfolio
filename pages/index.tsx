@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { BlogObject, Blogs } from "../lib/blogs";
+import { Blog } from "../lib/blog";
 
 type Props = {
-  blogs: Array<BlogObject>;
+  blogs: Array<Blog>;
   contentDirectoryName: string;
 };
 
@@ -11,7 +11,7 @@ function Home({ blogs, contentDirectoryName }: Props) {
     <div className="blog__list">
       <h1>Blog post list</h1>
       <ul>
-        {blogs.map((blog: BlogObject) => (
+        {blogs.map((blog: Blog) => (
           <li key={blog.title}>
             <Link
               href={`/${contentDirectoryName}/${encodeURIComponent(
@@ -33,11 +33,11 @@ function Home({ blogs, contentDirectoryName }: Props) {
 }
 
 export async function getStaticProps() {
-  const blogs = JSON.stringify(await Blogs.getBlogsObject());
+  const blogs = JSON.stringify(await Blog.getBlogsObject());
   return {
     props: {
       blogs: JSON.parse(blogs),
-      contentDirectoryName: Blogs.getContentDirectoryName(),
+      contentDirectoryName: Blog.getContentDirectoryName(),
     },
   };
 }
