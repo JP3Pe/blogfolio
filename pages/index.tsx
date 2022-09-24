@@ -8,8 +8,7 @@ type Props = {
 
 function Home({ blogs, contentDirectoryName }: Props) {
   return (
-    <div className="blog__list">
-      <h1>Blog post list</h1>
+    <div className="blog-list">
       <ul>
         {blogs.map((blog: Blog) => (
           <li key={blog.title}>
@@ -18,16 +17,40 @@ function Home({ blogs, contentDirectoryName }: Props) {
                 blog.title
               )}`}
             >
-              <a>{blog.title}</a>
+              <a className="blog-list__title">{blog.title}</a>
             </Link>
-            <p className="blog__list--content">
-              {blog.content.length > 100
-                ? blog.content.substring(0, 100) + "..."
+            <p className="blog-list__content">
+              {blog.content.length > 500
+                ? blog.content.substring(0, 500) + "..."
                 : blog.content}
             </p>
           </li>
         ))}
       </ul>
+      <style jsx>
+        {`
+          .blog-list {
+            padding: 10vh 10vw;
+          }
+
+          .blog-list ul {
+            display: grid;
+            gap: 5vh;
+          }
+
+          .blog-list__title {
+            display: block;
+            margin-bottom: 0.5em;
+            font-weight: var(--font-weight-heavy);
+            font-size: 1.3em;
+          }
+
+          .blog-list__content {
+            font-size: 1em;
+            font-weight: var(--font-weight-normal);
+          }
+        `}
+      </style>
     </div>
   );
 }
