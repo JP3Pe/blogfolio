@@ -19,6 +19,11 @@ function Home({ blogs, contentDirectoryName }: Props) {
             >
               <a className="blog-list__title">{blog.title}</a>
             </Link>
+            <span className="blog-list__birthtime">
+              {new Date(blog.birthtime.toString()).getFullYear()}-
+              {new Date(blog.birthtime.toString()).getMonth()}-
+              {new Date(blog.birthtime.toString()).getDate()}
+            </span>
             <p className="blog-list__content">
               {blog.content.length > 500
                 ? blog.content.substring(0, 500) + "..."
@@ -40,9 +45,16 @@ function Home({ blogs, contentDirectoryName }: Props) {
 
           .blog-list__title {
             display: block;
-            margin-bottom: 0.5em;
+            margin-bottom: 0.3em;
             font-weight: var(--font-weight-heavy);
             font-size: 1.3em;
+          }
+
+          .blog-list__birthtime {
+            display: block;
+            color: grey;
+            font-size: 0.7em;
+            margin-bottom: 0.5em;
           }
 
           .blog-list__content {
