@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from "fs";
+import { readdirSync, readFileSync, statSync } from "fs";
 import { join } from "path";
 
 import { remark } from "remark";
@@ -14,13 +14,26 @@ export class Blog {
     Blog.CONTENT_DIRECTORY_NAME
   );
 
-  constructor(public readonly title: string, public readonly content: string) {
+  constructor(
+    public readonly title: string,
+    public readonly content: string,
+    public readonly birthtime: Date
+  ) {
     this.title = title;
     this.content = content;
+    this.birthtime = birthtime;
   }
 
   public static getContentDirectoryName(): string {
     return Blog.CONTENT_DIRECTORY_NAME;
+  }
+
+  public static getAbsoluteFilePath(title: string) {
+    return join(
+      this.CONTENT_DIRECTORY_PATH,
+      title,
+      title + this.CONTENT_FORMAT
+    );
   }
 
   public static async getMarkdown(fileContent: string) {
@@ -32,13 +45,7 @@ export class Blog {
   }
 
   public static async getBlog(title: string) {
-    const absoluteFilePath = join(
-      this.CONTENT_DIRECTORY_PATH,
-      title,
-      title + this.CONTENT_FORMAT
-    );
-
-    return readFileSync(absoluteFilePath).toString();
+    return readFileSync(this.getAbsoluteFilePath(title)).toString();
   }
 
   public static async getBlogTitles() {
@@ -53,14 +60,21 @@ export class Blog {
 
   public static async getBlogsObject() {
     const blogTitles = await this.getBlogTitles();
-
     const blogsObjects = new Array<Blog>();
+
     for (const blogTitle of blogTitles) {
       const blogContent = await this.getBlog(blogTitle);
-      const blog = new Blog(blogTitle, blogContent);
+      const birthtime = await this.getBlogCreatedDate(blogTitle);
+      const blog = new Blog(blogTitle, blogContent, birthtime);
       blogsObjects.push(blog);
     }
 
     return blogsObjects;
+  }
+
+  public static async getBlogCreatedDate(title: string) {
+    const fileMetadata = statSync(this.getAbsoluteFilePath(title));
+
+    return fileMetadata["birthtime"];
   }
 }
