@@ -1,24 +1,30 @@
 import Link from "next/link";
-
-import { Blogs } from "../lib/blogs";
+import { BlogObject, Blogs } from "../lib/blogs";
 
 type Props = {
-  blogTitles: Array<string>;
+  blogs: Array<BlogObject>;
   contentDirectoryName: string;
 };
 
-function Home({ blogTitles, contentDirectoryName }: Props) {
+function Home({ blogs, contentDirectoryName }: Props) {
   return (
     <div className="blog__list">
       <h1>Blog post list</h1>
       <ul>
-        {blogTitles.map((blogTitle: string) => (
-          <li key={blogTitle}>
+        {blogs.map((blog: BlogObject) => (
+          <li key={blog.title}>
             <Link
-              href={`/${contentDirectoryName}/${encodeURIComponent(blogTitle)}`}
+              href={`/${contentDirectoryName}/${encodeURIComponent(
+                blog.title
+              )}`}
             >
-              <a>{blogTitle}</a>
+              <a>{blog.title}</a>
             </Link>
+            <p className="blog__list--content">
+              {blog.content.length > 100
+                ? blog.content.substring(0, 100) + "..."
+                : blog.content}
+            </p>
           </li>
         ))}
       </ul>
@@ -27,9 +33,10 @@ function Home({ blogTitles, contentDirectoryName }: Props) {
 }
 
 export async function getStaticProps() {
+  const blogs = JSON.stringify(await Blogs.getBlogsObject());
   return {
     props: {
-      blogTitles: await Blogs.getBlogs(),
+      blogs: JSON.parse(blogs),
       contentDirectoryName: Blogs.getContentDirectoryName(),
     },
   };
