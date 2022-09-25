@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Blog } from "../lib/blog";
 
@@ -19,6 +20,13 @@ function Home({ blogs, contentDirectoryName }: Props) {
             >
               <a className="blog-list__title">{blog.title}</a>
             </Link>
+            <Image
+              src={blog.representativeImageRelativePath}
+              alt={blog.title + "대표 이미지"}
+              layout="responsive"
+              width={1}
+              height={1}
+            />
             <span className="blog-list__birthtime">
               {new Date(blog.birthtime.toString()).getFullYear()}-
               {new Date(blog.birthtime.toString()).getMonth()}-
@@ -41,6 +49,10 @@ function Home({ blogs, contentDirectoryName }: Props) {
           .blog-list ul {
             display: grid;
             gap: 5vh;
+          }
+
+          .blog-list ul > li {
+            display: grid;
           }
 
           .blog-list__title {
@@ -72,7 +84,7 @@ export async function getStaticProps() {
   return {
     props: {
       blogs: JSON.parse(blogs),
-      contentDirectoryName: Blog.getContentDirectoryName(),
+      contentDirectoryName: Blog.CONTENT_DIRECTORY_NAME,
     },
   };
 }
