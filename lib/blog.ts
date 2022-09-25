@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync, statSync } from "fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "fs";
 import { join } from "path";
 
 import { remark } from "remark";
@@ -13,15 +13,25 @@ export class Blog {
     this.PUBLIC_DIRECTORY_NAME,
     Blog.CONTENT_DIRECTORY_NAME
   );
+  public static readonly IMG_DIRECTORY_NAME: string = "img";
+  public static readonly IMG_DIRECTORY_PATH: string = join(
+    process.cwd(),
+    this.PUBLIC_DIRECTORY_NAME,
+    this.IMG_DIRECTORY_NAME
+  );
+  public static readonly REPRESENTATIVE_IMAGE_FILE_NAME =
+    "representative_image.jpg";
 
   constructor(
     public readonly title: string,
     public readonly content: string,
-    public readonly birthtime: Date
+    public readonly birthtime: Date,
+    public readonly representativeImagePath: string
   ) {
     this.title = title;
     this.content = content;
     this.birthtime = birthtime;
+    this.representativeImagePath = representativeImagePath;
   }
 
   public static getContentDirectoryName(): string {
@@ -65,7 +75,15 @@ export class Blog {
     for (const blogTitle of blogTitles) {
       const blogContent = await this.getBlog(blogTitle);
       const birthtime = await this.getBlogCreatedDate(blogTitle);
-      const blog = new Blog(blogTitle, blogContent, birthtime);
+      const representativeImagePath = await this.getBlogRepresentativeImagePath(
+        blogTitle
+      );
+      const blog = new Blog(
+        blogTitle,
+        blogContent,
+        birthtime,
+        representativeImagePath
+      );
       blogsObjects.push(blog);
     }
 
@@ -76,5 +94,34 @@ export class Blog {
     const fileMetadata = statSync(this.getAbsoluteFilePath(title));
 
     return fileMetadata["birthtime"];
+  }
+
+  public static getDefaultRepresentativeImageRelativePath() {
+    return join(
+      "/",
+      this.IMG_DIRECTORY_NAME,
+      this.REPRESENTATIVE_IMAGE_FILE_NAME
+    );
+  }
+
+  public static async getBlogRepresentativeImagePath(title: string) {
+    const contentRepresentativeImageRelativePath = join(
+      "/",
+      this.CONTENT_DIRECTORY_NAME,
+      title,
+      this.REPRESENTATIVE_IMAGE_FILE_NAME
+    );
+    const contentRepresentativeImageAbsolutePath = join(
+      this.CONTENT_DIRECTORY_PATH,
+      title,
+      this.REPRESENTATIVE_IMAGE_FILE_NAME
+    );
+
+    const isRepresentativeImageExist: boolean = existsSync(
+      contentRepresentativeImageAbsolutePath
+    );
+    return isRepresentativeImageExist
+      ? contentRepresentativeImageRelativePath
+      : this.getDefaultRepresentativeImageRelativePath();
   }
 }
