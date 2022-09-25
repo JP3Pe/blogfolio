@@ -21,7 +21,7 @@ function Home({ blogs, contentDirectoryName }: Props) {
               <a className="blog-list__title">{blog.title}</a>
             </Link>
             <Image
-              src={blog.representativeImagePath}
+              src={blog.representativeImageRelativePath}
               alt={blog.title + "대표 이미지"}
               layout="responsive"
               width={1}
@@ -84,7 +84,7 @@ export async function getStaticProps() {
   return {
     props: {
       blogs: JSON.parse(blogs),
-      contentDirectoryName: Blog.getContentDirectoryName(),
+      contentDirectoryName: Blog.CONTENT_DIRECTORY_NAME,
     },
   };
 }

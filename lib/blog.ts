@@ -5,42 +5,43 @@ import { remark } from "remark";
 import remarkHtml from "remark-html";
 
 export class Blog {
+  public static readonly CONTENT_FORMAT: string = ".md";
   public static readonly CONTENT_DIRECTORY_NAME: string = "blogs";
   public static readonly PUBLIC_DIRECTORY_NAME: string = "public";
-  public static readonly CONTENT_FORMAT: string = ".md";
-  public static readonly CONTENT_DIRECTORY_PATH: string = join(
+  public static readonly IMG_DIRECTORY_NAME: string = "img";
+  public static readonly REPRESENTATIVE_IMAGE_FILE_NAME =
+    "representative_image.jpg";
+  public static readonly CONTENT_DIRECTORY_ABSOLUTE_PATH: string = join(
     process.cwd(),
     this.PUBLIC_DIRECTORY_NAME,
     Blog.CONTENT_DIRECTORY_NAME
   );
-  public static readonly IMG_DIRECTORY_NAME: string = "img";
-  public static readonly IMG_DIRECTORY_PATH: string = join(
+  public static readonly IMG_DIRECTORY_ABSOLUTE_PATH: string = join(
     process.cwd(),
     this.PUBLIC_DIRECTORY_NAME,
     this.IMG_DIRECTORY_NAME
   );
-  public static readonly REPRESENTATIVE_IMAGE_FILE_NAME =
-    "representative_image.jpg";
+  public static readonly DEFAULT_REPRESENTATIVE_IMAGE_RELATIVE_PATH: string =
+    join("/", this.IMG_DIRECTORY_NAME, this.REPRESENTATIVE_IMAGE_FILE_NAME);
+  public static readonly BLOG_TITLES = readdirSync(
+    this.CONTENT_DIRECTORY_ABSOLUTE_PATH
+  );
 
   constructor(
     public readonly title: string,
     public readonly content: string,
     public readonly birthtime: Date,
-    public readonly representativeImagePath: string
+    public readonly representativeImageRelativePath: string
   ) {
     this.title = title;
     this.content = content;
     this.birthtime = birthtime;
-    this.representativeImagePath = representativeImagePath;
+    this.representativeImageRelativePath = representativeImageRelativePath;
   }
 
-  public static getContentDirectoryName(): string {
-    return Blog.CONTENT_DIRECTORY_NAME;
-  }
-
-  public static getAbsoluteFilePath(title: string) {
+  public static getContentAbsoluteFilePath(title: string) {
     return join(
-      this.CONTENT_DIRECTORY_PATH,
+      this.CONTENT_DIRECTORY_ABSOLUTE_PATH,
       title,
       title + this.CONTENT_FORMAT
     );
@@ -55,56 +56,36 @@ export class Blog {
   }
 
   public static async getBlog(title: string) {
-    return readFileSync(this.getAbsoluteFilePath(title)).toString();
-  }
-
-  public static async getBlogTitles() {
-    return readdirSync(
-      join(
-        process.cwd(),
-        this.PUBLIC_DIRECTORY_NAME,
-        this.CONTENT_DIRECTORY_NAME
-      )
-    );
+    return readFileSync(this.getContentAbsoluteFilePath(title)).toString();
   }
 
   public static async getBlogsObject() {
-    const blogTitles = await this.getBlogTitles();
-    const blogsObjects = new Array<Blog>();
+    const blogsObject = new Array<Blog>();
 
-    for (const blogTitle of blogTitles) {
+    for (const blogTitle of this.BLOG_TITLES) {
       const blogContent = await this.getBlog(blogTitle);
       const birthtime = await this.getBlogCreatedDate(blogTitle);
-      const representativeImagePath = await this.getBlogRepresentativeImagePath(
-        blogTitle
-      );
+      const representativeImageRelativePath =
+        await this.getBlogRepresentativeImageRelativePath(blogTitle);
       const blog = new Blog(
         blogTitle,
         blogContent,
         birthtime,
-        representativeImagePath
+        representativeImageRelativePath
       );
-      blogsObjects.push(blog);
+      blogsObject.push(blog);
     }
 
-    return blogsObjects;
+    return blogsObject;
   }
 
   public static async getBlogCreatedDate(title: string) {
-    const fileMetadata = statSync(this.getAbsoluteFilePath(title));
+    const fileMetadata = statSync(this.getContentAbsoluteFilePath(title));
 
     return fileMetadata["birthtime"];
   }
 
-  public static getDefaultRepresentativeImageRelativePath() {
-    return join(
-      "/",
-      this.IMG_DIRECTORY_NAME,
-      this.REPRESENTATIVE_IMAGE_FILE_NAME
-    );
-  }
-
-  public static async getBlogRepresentativeImagePath(title: string) {
+  public static async getBlogRepresentativeImageRelativePath(title: string) {
     const contentRepresentativeImageRelativePath = join(
       "/",
       this.CONTENT_DIRECTORY_NAME,
@@ -112,7 +93,7 @@ export class Blog {
       this.REPRESENTATIVE_IMAGE_FILE_NAME
     );
     const contentRepresentativeImageAbsolutePath = join(
-      this.CONTENT_DIRECTORY_PATH,
+      this.CONTENT_DIRECTORY_ABSOLUTE_PATH,
       title,
       this.REPRESENTATIVE_IMAGE_FILE_NAME
     );
@@ -122,6 +103,6 @@ export class Blog {
     );
     return isRepresentativeImageExist
       ? contentRepresentativeImageRelativePath
-      : this.getDefaultRepresentativeImageRelativePath();
+      : this.DEFAULT_REPRESENTATIVE_IMAGE_RELATIVE_PATH;
   }
 }
