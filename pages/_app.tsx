@@ -5,6 +5,8 @@ import Layout from "../components/layout";
 
 import "../styles/reset.css";
 import "../styles/root.css";
+// 블로그 게시물 관련 css
+import "../styles/blog-detail.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
