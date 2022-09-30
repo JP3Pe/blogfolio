@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function TopBar() {
   return (
     <nav className="top-menu">
@@ -22,7 +24,9 @@ export default function TopBar() {
           </div>
         </li>
         <li>
-          <span className="top-menu__title">Blogfolio</span>
+          <Link href={`/`}>
+            <a className="top-menu__title">Blogfolio</a>
+          </Link>
         </li>
         <li>
           <span className="top-menu__right-blank-area"></span>
