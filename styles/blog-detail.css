@@ -37,6 +37,11 @@ main code {
   color: orange;
 }
 
+main pre > code {
+  display: block;
+  overflow: scroll;
+}
+
 main p img {
   width: 100%;
 }
