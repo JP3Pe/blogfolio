@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+
 import { Blog } from "../lib/blog";
+import { Replicator } from "../lib/replicator";
 
 type Props = {
   blogs: Array<Blog>;
@@ -80,6 +82,10 @@ function Home({ blogs, contentDirectoryName }: Props) {
 }
 
 export async function getStaticProps() {
+  (await Replicator.isBlogContentsReplicated())
+    ? null
+    : await Replicator.replicateBlogContents();
+
   const blogs = JSON.stringify(await Blog.getBlogsObject());
   return {
     props: {
