@@ -5,6 +5,7 @@ import { remark } from "remark";
 import remarkHtml from "remark-html";
 
 export class Blog {
+  public static readonly ROOT_DIRECTORY_PATH: string = process.cwd();
   public static readonly CONTENT_FORMAT: string = ".md";
   public static readonly CONTENT_DIRECTORY_NAME: string = "blogs";
   public static readonly PUBLIC_DIRECTORY_NAME: string = "public";
@@ -12,20 +13,17 @@ export class Blog {
   public static readonly REPRESENTATIVE_IMAGE_FILE_NAME =
     "representative_image.jpg";
   public static readonly CONTENT_DIRECTORY_ABSOLUTE_PATH: string = join(
-    process.cwd(),
+    this.ROOT_DIRECTORY_PATH,
     this.PUBLIC_DIRECTORY_NAME,
     Blog.CONTENT_DIRECTORY_NAME
   );
   public static readonly IMG_DIRECTORY_ABSOLUTE_PATH: string = join(
-    process.cwd(),
+    this.ROOT_DIRECTORY_PATH,
     this.PUBLIC_DIRECTORY_NAME,
     this.IMG_DIRECTORY_NAME
   );
   public static readonly DEFAULT_REPRESENTATIVE_IMAGE_RELATIVE_PATH: string =
     join("/", this.IMG_DIRECTORY_NAME, this.REPRESENTATIVE_IMAGE_FILE_NAME);
-  public static readonly BLOG_TITLES = readdirSync(
-    this.CONTENT_DIRECTORY_ABSOLUTE_PATH
-  );
 
   constructor(
     public readonly title: string,
@@ -37,6 +35,10 @@ export class Blog {
     this.content = content;
     this.birthtime = birthtime;
     this.representativeImageRelativePath = representativeImageRelativePath;
+  }
+
+  public static async getBlogTitles() {
+    return readdirSync(this.CONTENT_DIRECTORY_ABSOLUTE_PATH);
   }
 
   public static getContentAbsoluteFilePath(title: string) {
@@ -62,7 +64,7 @@ export class Blog {
   public static async getBlogsObject() {
     const blogsObject = new Array<Blog>();
 
-    for (const blogTitle of this.BLOG_TITLES) {
+    for (const blogTitle of await this.getBlogTitles()) {
       const blogContent = await this.getBlog(blogTitle);
       const birthtime = await this.getBlogCreatedDate(blogTitle);
       const representativeImageRelativePath =
