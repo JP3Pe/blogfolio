@@ -1,34 +1,36 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 요약
+자신의 서버나 Vercel 같은 클라우드 환경에서 자신만의 블로그 시스템을 구축하고자 할 때 사용 가능한 프로젝트입니다.
+# 개발환경 구축
 
-## Getting Started
+로컬 개발 환경에서 프로젝트를 실행하는 방법은 아래와 같습니다.
 
-First, run the development server:
+1. 프로젝트 git clone
+2. 프로젝트 폴더 내부에서 아래의 명령어 실행
 
 ```bash
-npm run dev
-# or
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[http://localhost:3000](http://localhost:3000) 에서 실행된 프로젝트를 확인할 수 있습니다.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+# 글 작성
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+root/public/blogs 디렉토리 내부에 디렉토리를 생성 후 작성하면 됩니다.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## 주의 사항
 
-## Learn More
+1. **blogs** 폴더 내부의 컨텐츠 개시물 디렉토리의 이름은 게시물의 제목과 동일하게 설정할것
+2. 컨텐츠 게시물 디렉토리 내부에 있는 대표 이미지의 파일명은 반드시 **representative_image.jpg**와 동일할것
+3. 컨텐츠 디랙토리 내부에 있는 이미지를 사용시 .md 파일에서 경로를 **디렉토리 명/파일명** 으로 할것
+   1. *publish branch를 참고할것*
+4. 컨텐츠 디렉토리 내부에 있는 이미지를 사용시 디렉토리명을 마크다운에 사용해야하는데, 공백을 **%20** 문자로 치환할것
 
-To learn more about Next.js, take a look at the following resources:
+# 배포
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Vercel
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+**build command**로 아래 명령어 사용
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```bash
+yarn run vercel-deploy
+```

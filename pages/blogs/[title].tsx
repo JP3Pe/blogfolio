@@ -18,7 +18,7 @@ export async function getStaticProps({ params }: Params) {
 
 export async function getStaticPaths() {
   const staticPaths: string[] = [];
-  Blog.BLOG_TITLES.map((blogTitle) =>
+  (await Blog.getBlogTitles()).map((blogTitle) =>
     staticPaths.push(`/${Blog.CONTENT_DIRECTORY_NAME}/${blogTitle}`)
   );
   return {
