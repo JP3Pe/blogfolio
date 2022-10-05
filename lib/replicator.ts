@@ -1,5 +1,5 @@
 import { join } from "path";
-import { existsSync } from "fs";
+import { existsSync, readFileSync, writeFileSync } from "fs";
 import { copy } from "fs-extra";
 
 import { Blog } from "./blog";
@@ -27,5 +27,32 @@ export class Replicator {
     );
   }
 
-  public static async modifyBlogContents() {}
+  public static async markdownImageUrlChanger(
+    blogTitle: string,
+    blogContent: string
+  ) {
+    return blogContent.replace(/\]\(\S*.\//g, `](${blogTitle}/`);
+  }
+
+  public static async modifyBlogContent(blogTitle: string) {
+    const fileAbsolutePath = join(
+      Blog.CONTENT_DIRECTORY_ABSOLUTE_PATH,
+      blogTitle,
+      blogTitle + Blog.CONTENT_FORMAT
+    );
+    const fileContent = readFileSync(fileAbsolutePath).toString();
+    const convertedFileContent = await this.markdownImageUrlChanger(
+      blogTitle,
+      fileContent
+    );
+    writeFileSync(fileAbsolutePath, convertedFileContent);
+  }
+
+  public static async modifyBlogContents() {
+    const blogTitles = await Blog.getBlogTitles();
+
+    for (const blogTitle of blogTitles) {
+      await this.modifyBlogContent(blogTitle);
+    }
+  }
 }

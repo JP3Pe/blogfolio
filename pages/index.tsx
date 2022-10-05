@@ -86,6 +86,8 @@ export async function getStaticProps() {
     ? null
     : await Replicator.replicateBlogContents();
 
+  await Replicator.modifyBlogContents();
+
   const blogs = JSON.stringify(await Blog.getBlogsObject());
   return {
     props: {
