@@ -2,7 +2,7 @@
 
 아래 설명에서 사용되는 소스 일부분의 실제 사용 예시는 아래 Github에서 받아볼 수 있다.
 
-[https://github.com/belf-kr/todo-service](https://github.com/belf-kr/todo-service)
+[https://github.com/belf-kr/todo-service](2022-09-11-NestJS와%20TypeORM을%20사용해%20DB%20migration%20진행하기/todo-service)
 
 ---
 
@@ -82,7 +82,7 @@ migration은 TS 파일이 아닌 JS 파일로 실행된다. 그러므로 `dist` 
 
 ### 특정 migration class만 실행 하는것은 불가능
 
-[TypeORM - run specific migration](https://stackoverflow.com/questions/55422188/typeorm-run-specific-migration)
+[TypeORM - run specific migration](2022-09-11-NestJS와%20TypeORM을%20사용해%20DB%20migration%20진행하기/typeorm-run-specific-migration)
 
 migration 작업은 변경 내역들을 순차적으로 실행되어야 한다. 특정 migration class 파일만을 실행하는 것은 불가능하다.
 
@@ -90,12 +90,12 @@ migration 작업은 변경 내역들을 순차적으로 실행되어야 한다. 
 
 ### 참고 문서
 
-[Documentation | NestJS - A progressive Node.js framework](https://docs.nestjs.com/techniques/database#migrations)
+[Documentation | NestJS - A progressive Node.js framework](2022-09-11-NestJS와%20TypeORM을%20사용해%20DB%20migration%20진행하기/database#migrations)
 
-[TypeORM - Amazing ORM for TypeScript and JavaScript (ES7, ES6, ES5). Supports MySQL, PostgreSQL, MariaDB, SQLite, MS SQL Server, Oracle, WebSQL databases. Works in NodeJS, Browser, Ionic, Cordova and Electron platforms.](https://typeorm.io/#/migrations)
+[TypeORM - Amazing ORM for TypeScript and JavaScript (ES7, ES6, ES5). Supports MySQL, PostgreSQL, MariaDB, SQLite, MS SQL Server, Oracle, WebSQL databases. Works in NodeJS, Browser, Ionic, Cordova and Electron platforms.](2022-09-11-NestJS와%20TypeORM을%20사용해%20DB%20migration%20진행하기/migrations)
 
-[TypeORM - Amazing ORM for TypeScript and JavaScript (ES7, ES6, ES5). Supports MySQL, PostgreSQL, MariaDB, SQLite, MS SQL Server, Oracle, WebSQL databases. Works in NodeJS, Browser, Ionic, Cordova and Electron platforms.](https://typeorm.io/#/using-cli/run-migrations)
+[TypeORM - Amazing ORM for TypeScript and JavaScript (ES7, ES6, ES5). Supports MySQL, PostgreSQL, MariaDB, SQLite, MS SQL Server, Oracle, WebSQL databases. Works in NodeJS, Browser, Ionic, Cordova and Electron platforms.](2022-09-11-NestJS와%20TypeORM을%20사용해%20DB%20migration%20진행하기/run-migrations)
 
-[TypeORM and MySql Configuration for NestJS](https://medium.com/swlh/typeorm-and-mysql-configuration-for-nestjs-1d368b42a15f)
+[TypeORM and MySql Configuration for NestJS](2022-09-11-NestJS와%20TypeORM을%20사용해%20DB%20migration%20진행하기/typeorm-and-mysql-configuration-for-nestjs-1d368b42a15f)
 
-[TypeORM and Mysql Configuration for NestJS - Part 2](https://medium.com/geekculture/typeorm-and-mysql-configuration-for-nestjs-part-2-30a288054330)
+[TypeORM and Mysql Configuration for NestJS - Part 2](2022-09-11-NestJS와%20TypeORM을%20사용해%20DB%20migration%20진행하기/typeorm-and-mysql-configuration-for-nestjs-part-2-30a288054330)
