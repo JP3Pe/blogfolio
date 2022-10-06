@@ -2,7 +2,7 @@
 
 아래 설명에서 사용되는 소스 일부분의 실제 사용 예시는 아래 Github에서 받아볼 수 있다.
 
-[https://github.com/belf-kr/todo-service](2022-09-11-temp-name/todo-service)
+[https://github.com/belf-kr/todo-service](2022-09-11-NestJS와%20TypeORM을%20사용해%20DB%20migration%20진행하기/todo-service)
 
 ---
 
@@ -33,11 +33,11 @@ package.json 파일의 scripts 일부분이며, 예시 명령어에서는 미리
 
 ## Create migration class file
 
-![typeorm migration 생성.png](2022-09-11-temp-name/typeorm_migration_create.png)
+![typeorm migration 생성.png](2022-09-11-NestJS와%20TypeORM을%20사용해%20DB%20migration%20진행하기/typeorm_migration_create.png)
 
 `npm run create-migration-dev -n CourseUsernameRename` 명령어를 사용해 `CourseUsernameRename` 라는 이름의 Class 파일을 생성한다.
 
-![typeorm migration 클래스.png](2022-09-11-temp-name/typeorm_migration_%E1%84%8F%E1%85%B3%E1%86%AF%E1%84%85%E1%85%A2%E1%84%89%E1%85%B3.png)
+![typeorm migration 클래스.png](2022-09-11-NestJS와%20TypeORM을%20사용해%20DB%20migration%20진행하기/typeorm_migration_class.png)
 
 TypeORM이 생성해준 파일을 열어보면 up, down 메소드가 존재한다.
 
@@ -56,11 +56,11 @@ migration은 TS 파일이 아닌 JS 파일로 실행된다. 그러므로 `dist` 
 
 `npm run build`
 
-![typeorm migration 실행.png](2022-09-11-temp-name/typeorm_migration_%E1%84%89%E1%85%B5%E1%86%AF%E1%84%92%E1%85%A2%E1%86%BC.png)
+![typeorm migration 실행.png](2022-09-11-NestJS와%20TypeORM을%20사용해%20DB%20migration%20진행하기/typeorm_migration_execute.png)
 
 `npm run run-migrations-dev` 명령어를 사용해 migration 작업을 실행한다.
 
-![typeorm migration 실행후 로그.png](2022-09-11-temp-name/typeorm_migration_%E1%84%89%E1%85%B5%E1%86%AF%E1%84%92%E1%85%A2%E1%86%BC%E1%84%92%E1%85%AE_%E1%84%85%E1%85%A9%E1%84%80%E1%85%B3.png)
+![typeorm migration 실행후 로그.png](2022-09-11-NestJS와%20TypeORM을%20사용해%20DB%20migration%20진행하기/typeorm_migration_log_after_execute.png)
 
 `typeorm_migrations` DB table 내부에 방금 실행한 migration 정보가 insert 되었음을 확인할 수 있다.
 
@@ -74,7 +74,7 @@ migration은 TS 파일이 아닌 JS 파일로 실행된다. 그러므로 `dist` 
 
 `npm run build`
 
-![typeorm migration 취소.png](2022-09-11-temp-name/typeorm_migration_%E1%84%8E%E1%85%B1%E1%84%89%E1%85%A9.png)
+![typeorm migration 취소.png](2022-09-11-NestJS와%20TypeORM을%20사용해%20DB%20migration%20진행하기/typeorm_migration_cancel.png)
 
 `npm run revert-migrations-dev` 명령어를 실행해 migration 작업을 실행한다.
 
@@ -82,7 +82,7 @@ migration은 TS 파일이 아닌 JS 파일로 실행된다. 그러므로 `dist` 
 
 ### 특정 migration class만 실행 하는것은 불가능
 
-[TypeORM - run specific migration](2022-09-11-temp-name/typeorm-run-specific-migration)
+[TypeORM - run specific migration](2022-09-11-NestJS와%20TypeORM을%20사용해%20DB%20migration%20진행하기/typeorm-run-specific-migration)
 
 migration 작업은 변경 내역들을 순차적으로 실행되어야 한다. 특정 migration class 파일만을 실행하는 것은 불가능하다.
 
@@ -90,12 +90,12 @@ migration 작업은 변경 내역들을 순차적으로 실행되어야 한다. 
 
 ### 참고 문서
 
-[Documentation | NestJS - A progressive Node.js framework](2022-09-11-temp-name/database#migrations)
+[Documentation | NestJS - A progressive Node.js framework](2022-09-11-NestJS와%20TypeORM을%20사용해%20DB%20migration%20진행하기/database#migrations)
 
-[TypeORM - Amazing ORM for TypeScript and JavaScript (ES7, ES6, ES5). Supports MySQL, PostgreSQL, MariaDB, SQLite, MS SQL Server, Oracle, WebSQL databases. Works in NodeJS, Browser, Ionic, Cordova and Electron platforms.](2022-09-11-temp-name/migrations)
+[TypeORM - Amazing ORM for TypeScript and JavaScript (ES7, ES6, ES5). Supports MySQL, PostgreSQL, MariaDB, SQLite, MS SQL Server, Oracle, WebSQL databases. Works in NodeJS, Browser, Ionic, Cordova and Electron platforms.](2022-09-11-NestJS와%20TypeORM을%20사용해%20DB%20migration%20진행하기/migrations)
 
-[TypeORM - Amazing ORM for TypeScript and JavaScript (ES7, ES6, ES5). Supports MySQL, PostgreSQL, MariaDB, SQLite, MS SQL Server, Oracle, WebSQL databases. Works in NodeJS, Browser, Ionic, Cordova and Electron platforms.](2022-09-11-temp-name/run-migrations)
+[TypeORM - Amazing ORM for TypeScript and JavaScript (ES7, ES6, ES5). Supports MySQL, PostgreSQL, MariaDB, SQLite, MS SQL Server, Oracle, WebSQL databases. Works in NodeJS, Browser, Ionic, Cordova and Electron platforms.](2022-09-11-NestJS와%20TypeORM을%20사용해%20DB%20migration%20진행하기/run-migrations)
 
-[TypeORM and MySql Configuration for NestJS](2022-09-11-temp-name/typeorm-and-mysql-configuration-for-nestjs-1d368b42a15f)
+[TypeORM and MySql Configuration for NestJS](2022-09-11-NestJS와%20TypeORM을%20사용해%20DB%20migration%20진행하기/typeorm-and-mysql-configuration-for-nestjs-1d368b42a15f)
 
-[TypeORM and Mysql Configuration for NestJS - Part 2](2022-09-11-temp-name/typeorm-and-mysql-configuration-for-nestjs-part-2-30a288054330)
+[TypeORM and Mysql Configuration for NestJS - Part 2](2022-09-11-NestJS와%20TypeORM을%20사용해%20DB%20migration%20진행하기/typeorm-and-mysql-configuration-for-nestjs-part-2-30a288054330)

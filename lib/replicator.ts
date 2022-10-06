@@ -35,6 +35,7 @@ export class Replicator {
   }
 
   public static async modifyBlogContent(blogTitle: string) {
+    const convertedBlogTitle = blogTitle.replace(/\s/g, "%20");
     const fileAbsolutePath = join(
       Blog.CONTENT_DIRECTORY_ABSOLUTE_PATH,
       blogTitle,
@@ -42,7 +43,7 @@ export class Replicator {
     );
     const fileContent = readFileSync(fileAbsolutePath).toString();
     const convertedFileContent = await this.markdownImageUrlChanger(
-      blogTitle,
+      convertedBlogTitle,
       fileContent
     );
     writeFileSync(fileAbsolutePath, convertedFileContent);
