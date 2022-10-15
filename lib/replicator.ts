@@ -56,4 +56,9 @@ export class Replicator {
       await this.modifyBlogContent(blogTitle);
     }
   }
+
+  public static async createComputedBlogContents() {
+    await this.replicateBlogContents();
+    await this.modifyBlogContents();
+  }
 }
