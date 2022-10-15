@@ -84,10 +84,7 @@ function Home({ blogs, contentDirectoryName }: Props) {
 export async function getStaticProps() {
   (await Replicator.isBlogContentsReplicated())
     ? null
-    : await Replicator.replicateBlogContents();
-
-  await Replicator.modifyBlogContents();
-
+    : await Replicator.createComputedBlogContents();
   const blogs = JSON.stringify(await Blog.getBlogsObject());
   return {
     props: {
