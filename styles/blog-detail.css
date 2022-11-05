@@ -46,7 +46,8 @@ main p img {
   width: 100%;
 }
 
-main p a {
+main p a,
+main p a:visited {
   color: cadetblue;
 }
 
