@@ -31,7 +31,7 @@ export class Replicator {
     blogTitle: string,
     blogContent: string
   ) {
-    return blogContent.replace(/\]\(\S*.\//g, `](${blogTitle}/`);
+    return blogContent.replace(/!\[.*\]\(\S*.\\/g, `](${blogTitle}/`);
   }
 
   public static async modifyBlogContent(blogTitle: string) {
